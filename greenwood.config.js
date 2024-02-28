@@ -9,8 +9,10 @@ class ImportHtmlResource extends ResourceInterface {
     this.contentType = 'text/javascript';
   }
 
+  // TODO should this be an intercept?
+  // TODO how to best tell this was an import attribute specifically other then searchParams???
   async shouldServe(url, request) {
-    const { pathname } = url;
+    const { pathname, searchParams } = url;
 
     // TODO (nice to have) better way to test for import attributes via URL, e.g. force attributes as query params somehow?
     return pathname.endsWith(this.extensions[0]); // || (request.headers.get('Content-Type') || '').includes(this.contentType);

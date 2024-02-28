@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@greenwood/cli": "^0.29.2",
+    "acorn-import-attributes": "^1.9.2",
     "rimraf": "^5.0.5"
   }
 }

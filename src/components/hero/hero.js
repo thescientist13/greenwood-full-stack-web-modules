@@ -1,6 +1,4 @@
 import sheet from './hero.css' with { type: "css" };
-// making an assumption here that the standard would return a template element
-// this plus DOM Parts could provide a really nice templating solution
 import template from "./hero.html" with { type: "html" };
 
 export default class HeroBanner extends HTMLElement {

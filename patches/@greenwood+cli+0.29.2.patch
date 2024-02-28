@@ -1,0 +1,65 @@
+diff --git a/node_modules/@greenwood/cli/src/config/rollup.config.js b/node_modules/@greenwood/cli/src/config/rollup.config.js
+index 8aa6f56..7b99776 100644
+--- a/node_modules/@greenwood/cli/src/config/rollup.config.js
++++ b/node_modules/@greenwood/cli/src/config/rollup.config.js
+@@ -3,6 +3,7 @@ import path from 'path';
+ import { checkResourceExists, normalizePathnameForWindows } from '../lib/resource-utils.js';
+ import { nodeResolve } from '@rollup/plugin-node-resolve';
+ import commonjs from '@rollup/plugin-commonjs';
++import { importAttributes } from 'acorn-import-attributes';
+ import * as walk from 'acorn-walk';
+ 
+ // https://github.com/rollup/rollup/issues/2121
+@@ -315,6 +316,9 @@ const getRollupConfigForScriptResources = async (compilation) => {
+       chunkFileNames: '[name].[hash].js',
+       sourcemap: true
+     },
++    acornInjectPlugins: [
++      importAttributes
++    ],
+     plugins: [
+       greenwoodResourceLoader(compilation),
+       greenwoodSyncPageResourceBundlesPlugin(compilation),
+diff --git a/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-css.js b/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-css.js
+index d52c723..7461084 100644
+--- a/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-css.js
++++ b/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-css.js
+@@ -227,11 +227,36 @@ class StandardCssResource extends ResourceInterface {
+     });
+   }
+ 
++  // TODO how to best tell this was an import attribute specifically other then searchParams???
++  async shouldIntercept(url) {
++    // console.log('shouldIntercept', { url });
++    const { searchParams } = url;
++    
++    return url.protocol === 'file:'
++      && this.extensions.indexOf(url.pathname.split('.').pop()) >= 0
++      && searchParams.get('type') === 'css';
++  }
++
++  async intercept(url, request, response) {
++    // console.log('INTERCEPTING', { url, request });
++    const contents = await response.text();
++    const body = `const sheet = new CSSStyleSheet();sheet.replaceSync('${contents.replace(/\r?\n|\r/g, ' ').replace(/\\/g, '\\\\')}');export default sheet;`;
++
++    return new Response(body, {
++      headers: {
++        'Content-Type': this.contentType
++      }
++    });
++  }
++
++  // TODO how to best tell this was an import attribute specifically other then searchParams???
++  // can we even optimize inline styles?
+   async shouldOptimize(url, response) {
+-    const { protocol, pathname } = url;
++    const { protocol, pathname, searchParams } = url;
+     const isValidCss = pathname.split('.').pop() === this.extensions[0]
+       && protocol === 'file:'
+-      && response.headers.get('Content-Type').indexOf(this.contentType) >= 0;
++      && response.headers.get('Content-Type').indexOf(this.contentType) >= 0
++      && searchParams.get('type') !== 'css';
+ 
+     return this.compilation.config.optimization !== 'none' && isValidCss;
+   }
