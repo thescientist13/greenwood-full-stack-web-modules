@@ -9,10 +9,21 @@
     "type": "git",
     "url": "git+https://github.com/thescientist13/greenwood-full-stack-web-modules.git"
   },
+  "overrides": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^3.29.4"
+  },
   "scripts": {
-    "dev": "greenwood develop"
+    "clean": "rimraf ./public .greenwood/",
+    "dev": "greenwood develop",
+    "build": "greenwood build",
+    "start": "npm run clean && npm run build && greenwood serve"
   },
   "devDependencies": {
-    "@greenwood/cli": "^0.29.2"
+    "@greenwood/cli": "^0.29.2",
+    "rimraf": "^5.0.5"
   }
 }
