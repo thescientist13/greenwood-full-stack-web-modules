@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og:http://ogp.me/ns#">
+
+  <head>
+    <title>Greenwood - Full-stack Web Modules demo</title>
+    <meta name="description" content="Greenwood - Full-stack Web Modules demo.">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.ico">
+
+    <script type="module" src="./components/hero/hero.js"></script>
+    <style>
+      :root {
+        --color-primary: #003554;
+        --color-green: #04724d;
+        --color-white: white;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      a {
+        color: var(--color-white);
+      }
+
+      header {
+        background-color: var(--color-primary);
+        margin: 0;
+        padding: 20px;
+      }
+
+      header a img {
+        margin-left: 5%;
+        width: 20%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a href="/">
+        <img src="https://www.greenwoodjs.io/assets/greenwood-logo-1500w.webp">
+      </a>
+    </header>
+
+    <app-hero></app-hero>
+
+  </body>
+
+</html>
