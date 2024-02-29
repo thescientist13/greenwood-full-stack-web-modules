@@ -37,7 +37,7 @@ class ImportHtmlResource extends ResourceInterface {
 }
 
 export default {
-  // TODO prerender: true,
+  prerender: true,
   plugins: [{
     type: 'resource',
     name: 'plugin-import-html:resource',

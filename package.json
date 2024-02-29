@@ -19,7 +19,8 @@
   "scripts": {
     "clean": "rimraf ./public .greenwood/",
     "dev": "greenwood develop",
-    "build": "greenwood build",
+    "build": "node --experimental-loader ./node_modules/@greenwood/cli/src/loader.js ./node_modules/.bin/greenwood build",
+    "serve": "greenwood serve",
     "start": "npm run clean && npm run build && greenwood serve",
     "preinstall": "patch-package"
   },

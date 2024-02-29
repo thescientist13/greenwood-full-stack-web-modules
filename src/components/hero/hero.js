@@ -3,13 +3,14 @@ import template from "./hero.html" with { type: "html" };
 
 export default class HeroBanner extends HTMLElement {
   connectedCallback() {
-    if(!this.shadowRoot) {
-      console.log({ sheet, template });
+    console.log({ sheet, template });
 
+    if (!this.shadowRoot) {
       this.attachShadow({ mode: 'open' });
       this.shadowRoot.appendChild(template.content.cloneNode(true));
-      this.shadowRoot.adoptedStyleSheets = [sheet];
     }
+
+    this.shadowRoot.adoptedStyleSheets = [sheet];
   }
 }
 
