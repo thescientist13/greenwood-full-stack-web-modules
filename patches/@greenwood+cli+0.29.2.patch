@@ -21,7 +21,7 @@ index 8aa6f56..7b99776 100644
        greenwoodResourceLoader(compilation),
        greenwoodSyncPageResourceBundlesPlugin(compilation),
 diff --git a/node_modules/@greenwood/cli/src/loader.js b/node_modules/@greenwood/cli/src/loader.js
-index 238fefc..93d1637 100644
+index 238fefc..c72ed67 100644
 --- a/node_modules/@greenwood/cli/src/loader.js
 +++ b/node_modules/@greenwood/cli/src/loader.js
 @@ -2,10 +2,16 @@ import fs from 'fs/promises';
@@ -62,6 +62,17 @@ index 238fefc..93d1637 100644
      const contents = await fs.readFile(url, 'utf-8');
      const { response } = await getCustomLoaderResponse(url, contents);
      const body = await response.text();
+@@ -80,8 +91,8 @@ export async function load(source, context, defaultLoad) {
+     // TODO better way to handle remove export default?  leverage import assertions instead
+     // https://github.com/ProjectEvergreen/greenwood/issues/923
+     return {
+-      format: extension === 'json' ? 'json' : 'module',
+-      source: extension === 'json' ? JSON.stringify(JSON.parse(contents.replace('export default ', ''))) : body,
++      format: 'module', // extension === 'json' ? 'json' : 'module',
++      source: body, // extension === 'json' ? JSON.stringify(JSON.parse(contents.replace('export default ', ''))) : body,
+       shortCircuit: true
+     };
+   }
 diff --git a/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-css.js b/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-css.js
 index d52c723..7461084 100644
 --- a/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-css.js
@@ -105,3 +116,36 @@ index d52c723..7461084 100644
  
      return this.compilation.config.optimization !== 'none' && isValidCss;
    }
+diff --git a/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-json.js b/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-json.js
+index 726c9b5..4217aa6 100644
+--- a/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-json.js
++++ b/node_modules/@greenwood/cli/src/plugins/resource/plugin-standard-json.js
+@@ -40,6 +40,28 @@ class StandardJsonResource extends ResourceInterface {
+       })
+     });
+   }
++
++  // TODO how to best tell this was an import attribute specifically other then searchParams???
++  async shouldIntercept(url) {
++    // console.log('shouldIntercept', { url });
++    const { searchParams } = url;
++    
++    return url.protocol === 'file:'
++      && this.extensions.indexOf(url.pathname.split('.').pop()) >= 0
++      && searchParams.get('type') === 'json';
++  }
++
++  async intercept(url, request, response) {
++    // console.log('INTERCEPTING', { url, request });
++    const json = await response.json();
++    const body = `export default ${JSON.stringify(json)}`;
++
++    return new Response(body, {
++      headers: {
++        'Content-Type': this.contentType
++      }
++    });
++  }
+ }
+ 
+ const pluginGreenwoodStandardJson = [{
