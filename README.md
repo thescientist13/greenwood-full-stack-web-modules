@@ -50,17 +50,18 @@ With these patches up-streamed, Greenwood and WCC will be able to support CSS an
 |CSR   |  ✅   |    ✅   |   ✅   |
 |SSR   |  ✅   |    ✅   |   ✅   |
 
-### Browser Support (TODO)
+### Browser Support
 
 A cross-section of where browsers stand on supporting these capabilities
 
-|               |  CSS  |   JSON  |  HTML  |
-|---------------|-------|---------|--------|
-|Chrome         |       |         |   🚫   |
-|FF             |       |         |   🚫   |
-|Safari TP      |       |         |   🚫   |
-|Safari 16.x    |       |         |   🚫   |
-|Safari 16.x    |       |         |   🚫   |
+|               |  CSS   |   JSON  |  HTML  |
+|---------------|--------|---------|--------|
+|Chrome         |   ✅   |    ✅   |   🚫   |
+|FF             |   ✅   |    ✅   |   🚫   |
+|Safari TP      |   ✅   |    ✅   |   🚫   |
+|Safari 17.x    |   ✅   |    ✅   |   🚫   |
+|Safari 16.x    |   ❓   |    ❓   |   🚫   |
+|Safari 15.x    |   🚫   |    🚫   |   🚫   |
 
 ## Dynamic Templating (DOM Parts)
 
