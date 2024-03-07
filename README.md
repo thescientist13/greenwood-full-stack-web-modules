@@ -63,3 +63,33 @@ A cross-section of where browsers stand on supporting these capabilities
 |Safari TP      |       |         |   🚫   |
 |Safari 16.x    |       |         |   🚫   |
 |Safari 16.x    |       |         |   🚫   |
+
+## Dynamic Templating (DOM Parts)
+
+While this demonstration repo only deals with templates that are static, dynamic templating is also [a goal](https://github.com/thescientist13/greenwood-full-stack-web-modules/issues/2), although it, like HTML modules, needs to be standardized (see the [DOM Parts proposal](https://github.com/WICG/webcomponents/blob/gh-pages/proposals/DOM-Parts.md)).  The hope is that soon a component author will be able to do this
+```html
+<div class="hero">
+  <h2>{{ heading }}</h2>
+  
+  <!-- ... -->
+</div>
+```
+
+```js
+import template from "./hero.html" with { type: "html" };
+
+export default class HeroBanner extends HTMLElement {
+  connectedCallback() {
+    if (!this.shadowRoot) {
+      template.replace('heading', this.getAttribute('heading'));
+
+      this.attachShadow({ mode: 'open' });
+      this.shadowRoot.appendChild(template.content.cloneNode(true));
+    }
+   
+    this.shadowRoot.adoptedStyleSheets = [sheet];
+  }
+}
+
+customElements.define('app-hero', HeroBanner);
+```
