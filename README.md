@@ -41,11 +41,9 @@ customElements.define('app-hero', HeroBanner);
 
 ## Compatibility
 
-Tracking various 
-
 ### Greenwood
 
-With these patches up-streamed, Greenwood will be able to support CSS and JSON out of the box, and HTML through a plugin.  This includes rendering in the browser and on the server, e.g. NodeJS.
+With these patches up-streamed, Greenwood and WCC will be able to support CSS and JSON out of the box, and HTML through a plugin.  This includes rendering in the browser and on the server, e.g. NodeJS.
 
 |      |  CSS  |   JSON  |  HTML  |
 |------|-------|---------|--------|
