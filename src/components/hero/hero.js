@@ -3,6 +3,10 @@ import template from "./hero.html" with { type: "html" };
 import json from "./hero.json" with { type: "json" };
 
 export default class HeroBanner extends HTMLElement {
+  clickButton(el) {
+    console.log('clicked button =>', el.textContent);
+  }
+
   connectedCallback() {
     console.log({ sheet, template, json });
 
@@ -12,6 +16,10 @@ export default class HeroBanner extends HTMLElement {
     }
 
     this.shadowRoot.adoptedStyleSheets = [sheet];
+    this.shadowRoot.querySelectorAll('button')
+      .forEach(button => {
+        button.addEventListener('click', () => this.clickButton(button))
+      });
   }
 }
 

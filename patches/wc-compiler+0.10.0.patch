@@ -1,8 +1,25 @@
 diff --git a/node_modules/wc-compiler/src/dom-shim.js b/node_modules/wc-compiler/src/dom-shim.js
-index 389b996..34751d6 100644
+index 389b996..c62912b 100644
 --- a/node_modules/wc-compiler/src/dom-shim.js
 +++ b/node_modules/wc-compiler/src/dom-shim.js
-@@ -135,9 +135,19 @@ class CustomElementsRegistry {
+@@ -85,7 +85,15 @@ class HTMLElement extends Element {
+ 
+ // https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment
+ // EventTarget <- Node <- DocumentFragment
+-class DocumentFragment extends Node { }
++class DocumentFragment extends Node {
++  querySelector() {
++    return {}
++   }
++
++  querySelectorAll() {
++    return [];
++  }
++}
+ 
+ // https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot
+ // EventTarget <- Node <- DocumentFragment <- ShadowRoot
+@@ -135,9 +143,19 @@ class CustomElementsRegistry {
    }
  }
  
