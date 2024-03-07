@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/thescientist13/greenwood-full-stack-web-modules.git"
   },
+  "engines": {
+    "node": "^21.0.0"
+  },
   "overrides": {
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
