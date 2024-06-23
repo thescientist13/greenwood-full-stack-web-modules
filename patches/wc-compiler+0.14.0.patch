@@ -1,0 +1,21 @@
+diff --git a/node_modules/wc-compiler/src/dom-shim.js b/node_modules/wc-compiler/src/dom-shim.js
+index be289a3..b71886a 100644
+--- a/node_modules/wc-compiler/src/dom-shim.js
++++ b/node_modules/wc-compiler/src/dom-shim.js
+@@ -93,7 +93,15 @@ class HTMLElement extends Element {
+ 
+ // https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment
+ // EventTarget <- Node <- DocumentFragment
+-class DocumentFragment extends Node { }
++class DocumentFragment extends Node { 
++  querySelector() {
++    return null;
++  }
++
++  querySelectorAll() {
++    return [];
++  }
++}
+ 
+ // https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot
+ // EventTarget <- Node <- DocumentFragment <- ShadowRoot
