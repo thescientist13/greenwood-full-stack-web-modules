@@ -25,7 +25,7 @@ export default class HeroBanner extends HTMLElement {
     }
 
     this.shadowRoot.adoptedStyleSheets = [sheet];
-    this.shadowRoot?.querySelectorAll?.('button') || []
+    this.shadowRoot.querySelectorAll?.('button')
       .forEach(button => {
         button.addEventListener('click', () => this.clickButton(button))
       });
