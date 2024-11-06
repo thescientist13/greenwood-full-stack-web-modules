@@ -1,5 +1,5 @@
 import sheet from './modal.css' with { type: 'css' };
-import template from './modal.html' with { type: 'html' };
+import template from './modal.html?type=html';
 
 export default class Modal extends HTMLElement {
 
@@ -24,7 +24,7 @@ export default class Modal extends HTMLElement {
       this.updateModal(event.detail);
     });
 
-    const modal = this.shadowRoot.querySelector('dialog');
+    const modal = this.shadowRoot?.querySelector?.('dialog');
 
     if (modal) {
       modal.querySelector('button').addEventListener('click', () => {
