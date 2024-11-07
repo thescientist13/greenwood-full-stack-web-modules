@@ -9,20 +9,15 @@
     "type": "git",
     "url": "git+https://github.com/thescientist13/greenwood-full-stack-web-modules.git"
   },
-  "engines": {
-    "node": "^21.0.0"
-  },
   "scripts": {
     "clean": "rimraf ./public .greenwood/",
     "dev": "greenwood develop",
     "build": "node --experimental-loader ./node_modules/@greenwood/cli/src/loader.js ./node_modules/.bin/greenwood build",
     "serve": "greenwood serve",
-    "start": "npm run clean && npm run build && greenwood serve",
-    "preinstall": "patch-package"
+    "start": "npm run clean && npm run build && greenwood serve"
   },
   "devDependencies": {
-    "@greenwood/cli": "^0.30.0-alpha.3",
-    "patch-package": "^8.0.0",
+    "@greenwood/cli": "^0.30.0",
     "rimraf": "^5.0.5"
   }
 }

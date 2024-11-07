@@ -1,6 +1,6 @@
 import sheet from './hero.css' with { type: 'css' };
-import template from './hero.html' with { type: 'html' };
 import json from "./hero.json" with { type: 'json' };
+import template from './hero.html?type=html';
 
 export default class HeroBanner extends HTMLElement {
   clickButton(el) {
@@ -25,7 +25,7 @@ export default class HeroBanner extends HTMLElement {
     }
 
     this.shadowRoot.adoptedStyleSheets = [sheet];
-    this.shadowRoot.querySelectorAll('button')
+    this.shadowRoot.querySelectorAll?.('button')
       .forEach(button => {
         button.addEventListener('click', () => this.clickButton(button))
       });
