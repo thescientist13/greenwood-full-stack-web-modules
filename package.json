@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/thescientist13/greenwood-full-stack-web-modules.git"
   },
+  "engines": {
+     "node": "22.x"
+  },
   "scripts": {
     "dev": "NODE_OPTIONS='--experimental-strip-types' greenwood develop",
     "build": "NODE_OPTIONS='--import @greenwood/cli/register --experimental-strip-types' greenwood build",
