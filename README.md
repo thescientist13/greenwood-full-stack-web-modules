@@ -6,7 +6,7 @@ A Greenwood based demonstration repo showcase full-stack "web modules" (HTML / C
 
 ## Setup
 
-You will need at least Node >= 21.0.0 to run the demo.  If you are using **nvm**, you can just run `nvm use`.
+You will need Node >= `22.x` to run the demo.  If you are using **nvm**, you can just run `nvm use`.
 
 1. Clone the repo
 1. Run `npm ci`
@@ -15,12 +15,12 @@ To view the demo, run `npm start` and open `http://localhost:1984` in your brows
 
 ## Overview
 
-The Hero component defines all its assets in standalone files and uses `import` to pull them into the custom element definition using the attributes syntax.
+The Hero component defines all its assets in standalone files and uses `import` to pull CSS and JSON into the custom element definition using the import attributes syntax, and a query param for HTML, as **html** is not a valid `type` yet.
   
 ```js
 import sheet from './hero.css' with { type: "css" };
-import template from "./hero.html" with { type: "html" };
 import json from "./hero.json" with { type: "json" };
+import template from "./hero.html?type=html";
 
 export default class HeroBanner extends HTMLElement {
   connectedCallback() {
@@ -75,7 +75,7 @@ While this demonstration repo only deals with templates that are static, dynamic
 ```
 
 ```js
-import template from "./hero.html" with { type: "html" };
+import template from "./hero.html?type=html";
 
 export default class HeroBanner extends HTMLElement {
   connectedCallback() {

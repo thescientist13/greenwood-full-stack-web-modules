@@ -10,14 +10,12 @@
     "url": "git+https://github.com/thescientist13/greenwood-full-stack-web-modules.git"
   },
   "scripts": {
-    "clean": "rimraf ./public .greenwood/",
     "dev": "greenwood develop",
-    "build": "node --experimental-loader ./node_modules/@greenwood/cli/src/loader.js ./node_modules/.bin/greenwood build",
+    "build": "NODE_OPTIONS='--import @greenwood/cli/register' greenwood build",
     "serve": "greenwood serve",
-    "start": "npm run clean && npm run build && greenwood serve"
+    "start": "npm run build && greenwood serve"
   },
   "devDependencies": {
-    "@greenwood/cli": "^0.30.0",
-    "rimraf": "^5.0.5"
+    "@greenwood/cli": "^0.33.0-alpha.1"
   }
 }

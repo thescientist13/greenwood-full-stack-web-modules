@@ -1,0 +1,34 @@
+import fs from 'node:fs/promises';
+
+// Enables using ESM to import HTML files as an HTML <template> element
+class HtmlImportsResource {
+  constructor() {
+    this.extensions = ['html'];
+    this.contentType = 'text/javascript';
+  }
+
+  async shouldServe(url) {
+    const { searchParams } = url;
+
+    return searchParams.get('type') === this.extensions[0]
+  }
+
+  async serve(url) {
+    const contents = await fs.readFile(url, 'utf-8');
+    const htmlInJsBody = `
+      const template = document.createElement('template');
+
+      template.innerHTML = \`${contents.replace(/\r?\n|\r/g, ' ').replace(/\\/g, '\\\\')}\`;
+
+      export default template;
+    `;
+
+    return new Response(htmlInJsBody, {
+      headers: new Headers({
+        'Content-Type': this.contentType
+      })
+    });
+  }
+}
+
+export { HtmlImportsResource };
