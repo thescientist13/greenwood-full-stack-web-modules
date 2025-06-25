@@ -10,12 +10,14 @@
     "url": "git+https://github.com/thescientist13/greenwood-full-stack-web-modules.git"
   },
   "scripts": {
-    "dev": "greenwood develop",
-    "build": "NODE_OPTIONS='--import @greenwood/cli/register' greenwood build",
-    "serve": "greenwood serve",
-    "start": "npm run build && greenwood serve"
+    "dev": "NODE_OPTIONS='--experimental-strip-types' greenwood develop",
+    "build": "NODE_OPTIONS='--import @greenwood/cli/register --experimental-strip-types' greenwood build",
+    "serve": "NODE_OPTIONS='--experimental-strip-types' greenwood serve",
+    "start": "npm run build && npm run serve",
+    "lint": "tsc --project tsconfig.json"
   },
   "devDependencies": {
-    "@greenwood/cli": "^0.33.0-alpha.1"
+    "@greenwood/cli": "^0.33.0-alpha.1",
+    "typescript": "^5.8.3"
   }
 }
