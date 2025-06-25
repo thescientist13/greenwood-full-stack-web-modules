@@ -20,7 +20,7 @@ export default class Modal extends HTMLElement {
     this.shadowRoot.adoptedStyleSheets = [sheet];
 
     // setup event handlers for updating and closing the dialog
-    globalThis.addEventListener('update-modal', (event) => {
+    globalThis.addEventListener('update-modal', (event: CustomEvent) => {
       this.updateModal(event.detail);
     });
 
