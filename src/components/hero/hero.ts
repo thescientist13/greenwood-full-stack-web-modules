@@ -1,19 +1,19 @@
 import sheet from './hero.css' with { type: 'css' };
 import json from "./hero.json" with { type: 'json' };
 import template from './hero.html?type=html';
+import { UpdateModalEvent } from '../modal/modal.types.ts';
 
 export default class HeroBanner extends HTMLElement {
-  clickButton(el) {
+  clickButton(el: HTMLButtonElement) {
     const content = el.textContent;
-    const buttonClickedEvent = new CustomEvent('update-modal', {
-      detail: {
-        content: `You selected "${content}"`,
-      },
-    });
-
+    // const buttonClickedEvent = new CustomEvent('update-modal', {
+    //   detail: {
+    //     content: `You selected "${content}"`,
+    //   },
+    // });
     console.log('clicked button =>', content);
-
-    window.dispatchEvent(buttonClickedEvent);
+    
+    window.dispatchEvent(new UpdateModalEvent(content));
   }
 
   connectedCallback() {
