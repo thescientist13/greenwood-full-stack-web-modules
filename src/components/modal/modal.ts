@@ -1,13 +1,14 @@
 import sheet from './modal.css' with { type: 'css' };
 import template from './modal.html?type=html';
+import { UpdateModalEvent } from '../modal/modal.types.ts';
 
 export default class Modal extends HTMLElement {
 
-  updateModal(detail) {
-    console.log(`message is => ${detail.content}`);
+  updateModal(content: string) {
+    console.log(`updateModal content is => ${content}`);
     const modal = this.shadowRoot.querySelector('dialog');
     
-    modal.querySelector('#content').textContent = detail.content;
+    modal.querySelector('#content').textContent = content;
     modal.showModal();
   }
 
@@ -20,8 +21,8 @@ export default class Modal extends HTMLElement {
     this.shadowRoot.adoptedStyleSheets = [sheet];
 
     // setup event handlers for updating and closing the dialog
-    globalThis.addEventListener('update-modal', (event: CustomEvent) => {
-      this.updateModal(event.detail);
+    globalThis.addEventListener(UpdateModalEvent.eventName, (event: UpdateModalEvent) => {
+      this.updateModal(event.content);
     });
 
     const modal = this.shadowRoot?.querySelector?.('dialog');
