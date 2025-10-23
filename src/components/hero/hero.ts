@@ -6,11 +6,6 @@ import { UpdateModalEvent } from '../modal/modal.types.ts';
 export default class HeroBanner extends HTMLElement {
   clickButton(el: HTMLButtonElement) {
     const content = el.textContent;
-    // const buttonClickedEvent = new CustomEvent('update-modal', {
-    //   detail: {
-    //     content: `You selected "${content}"`,
-    //   },
-    // });
     console.log('clicked button =>', content);
     
     window.dispatchEvent(new UpdateModalEvent(content));
