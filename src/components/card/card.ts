@@ -15,7 +15,7 @@ export default class Card extends HTMLElement {
       const thumbnail = this.getAttribute('thumbnail');
       const title = this.getAttribute('title');
 
-      template.replace('title', title);
+      template.replaceAll('title', title);
       template.replace('thumbnail', thumbnail);
 
       this.attachShadow({ mode: 'open' });

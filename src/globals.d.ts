@@ -1,5 +1,6 @@
 type HTMLTemplateElementWithDOMParts = HTMLTemplateElement & {
   replace: (key: string, contents: string) => void;
+  replaceAll: (key: string, contents: string) => void;
 }
 
 declare module "*.css" {
