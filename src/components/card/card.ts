@@ -15,7 +15,6 @@ export default class Card extends HTMLElement {
       const thumbnail = this.getAttribute('thumbnail');
       const title = this.getAttribute('title');
 
-      // TODO: typecheck this
       template.replace('title', title);
       template.replace('thumbnail', thumbnail);
 
