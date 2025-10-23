@@ -4,12 +4,6 @@ declare module "*.css" {
   export default sheet;
 }
 
-declare module "*.json" {
-  const data: object;
-
-  export default data;
-}
-
 declare module "*?type=html" {
   const template: HTMLTemplateElement;
 
