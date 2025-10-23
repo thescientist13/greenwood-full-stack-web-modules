@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" href="/favicon.ico">
 
+    <script type="module" src="./components/card/card.ts"></script>
     <script type="module" src="./components/hero/hero.ts"></script>
     <script type="module" src="./components/modal/modal.ts"></script>
     <style>
@@ -37,7 +38,16 @@
         width: 15%;
       }
 
-      app-hero:not(:defined) {
+      app-card {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        align-items: baseline;
+        margin: 2rem 0;
+      }
+
+      app-hero:not(:defined), app-card:not(:defined) {
         display: none;
       }
     </style>
@@ -51,6 +61,12 @@
     </header>
 
     <app-hero></app-hero>
+
+    <app-card
+      title="Greenwood Logo"
+      thumbnail="/assets/greenwood-logo-full.webp"
+    >
+    </app-card>
 
     <app-modal></app-modal>
 

@@ -22,6 +22,7 @@ class HtmlImportsResource {
       const template = document.createElement('template');
 
       template.innerHTML = \`${contents.replace(/\r?\n|\r/g, ' ').replace(/\\/g, '\\\\')}\`;
+      template.replace = (key, contents) => template.innerHTML = template.innerHTML.replaceAll(\`{{\${key}}}\`, contents);
 
       export default template;
     `;
