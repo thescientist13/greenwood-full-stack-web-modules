@@ -75,6 +75,8 @@ While this demonstration repo only deals with templates that are static, dynamic
 ```
 
 ```js
+// would eventually be
+// import template from './hero.html' with { type: 'html' }
 import template from "./hero.html?type=html";
 
 export default class HeroBanner extends HTMLElement {

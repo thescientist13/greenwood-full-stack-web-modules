@@ -18,17 +18,15 @@ class HtmlImportsResource {
 
   async serve(url: URL) {
     const contents = await fs.readFile(url, 'utf-8');
-    const htmlInJsBody = `
+    const body = `
       const template = document.createElement('template');
 
       template.innerHTML = \`${contents.replace(/\r?\n|\r/g, ' ').replace(/\\/g, '\\\\')}\`;
-      template.replace = (key, contents) => template.innerHTML = template.innerHTML.replace(\`{{\${key}}}\`, contents);
-      template.replaceAll = (key, contents) => template.innerHTML = template.innerHTML.replaceAll(\`{{\${key}}}\`, contents);
 
       export default template;
     `;
 
-    return new Response(htmlInJsBody, {
+    return new Response(body, {
       headers: new Headers({
         'Content-Type': this.contentType
       })
