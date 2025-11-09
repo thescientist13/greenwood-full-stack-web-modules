@@ -3,7 +3,6 @@ import template from './card.html?type=html';
 import { UpdateModalEvent } from '../modal/modal.types.ts';
 
 export default class Card extends HTMLElement {
-
   clickItem() {
     const title = this.getAttribute('title');
 
