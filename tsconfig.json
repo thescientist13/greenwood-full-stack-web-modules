@@ -3,11 +3,14 @@
     "target": "es2020",
     "module": "preserve",
     "moduleResolution": "bundler",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
     "noEmit": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "types": [
+      "node"
+    ]
   }
 }

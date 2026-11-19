@@ -10,18 +10,20 @@ export default class Card extends HTMLElement {
   }
 
   connectedCallback() {
-    if (!this.shadowRoot) {
-      const thumbnail = this.getAttribute('thumbnail');
-      const title = this.getAttribute('title');
+    let shadowRoot = this.shadowRoot;
+
+    if (!shadowRoot) {
+      const thumbnail = this.getAttribute('thumbnail') ?? '';
+      const title = this.getAttribute('title') ?? '';
 
       template.replaceAll('title', title);
       template.replace('thumbnail', thumbnail);
 
-      this.attachShadow({ mode: 'open' });
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
+      shadowRoot = this.attachShadow({ mode: 'open' });
+      shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
-    this.shadowRoot.adoptedStyleSheets = [sheet];
+    shadowRoot.adoptedStyleSheets = [sheet];
   }
 }
 

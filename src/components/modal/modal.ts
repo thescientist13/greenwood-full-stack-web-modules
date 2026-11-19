@@ -6,29 +6,36 @@ export default class Modal extends HTMLElement {
 
   updateModal(content: string) {
     console.log(`updateModal content is => ${content}`);
-    const modal = this.shadowRoot.querySelector('dialog');
-    
-    modal.querySelector('#content').textContent = content;
+    const modal = this.shadowRoot?.querySelector('dialog');
+    const contentElement = modal?.querySelector('#content');
+
+    if (!modal || !contentElement) {
+      return;
+    }
+
+    contentElement.textContent = content;
     modal.showModal();
   }
 
   connectedCallback() {
-    if (!this.shadowRoot) {
-      this.attachShadow({ mode: 'open' });
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
+    let shadowRoot = this.shadowRoot;
+
+    if (!shadowRoot) {
+      shadowRoot = this.attachShadow({ mode: 'open' });
+      shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
-    this.shadowRoot.adoptedStyleSheets = [sheet];
+    shadowRoot.adoptedStyleSheets = [sheet];
 
     // setup event handlers for updating and closing the dialog
     globalThis.addEventListener(UpdateModalEvent.eventName, (event: UpdateModalEvent) => {
       this.updateModal(event.content);
     });
 
-    const modal = this.shadowRoot?.querySelector?.('dialog');
+    const modal = shadowRoot.querySelector('dialog');
 
     if (modal) {
-      modal.querySelector('button').addEventListener('click', () => {
+      modal.querySelector('button')?.addEventListener('click', () => {
         modal.close();
       });
     }

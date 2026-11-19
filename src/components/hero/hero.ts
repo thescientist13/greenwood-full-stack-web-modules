@@ -14,13 +14,15 @@ export default class HeroBanner extends HTMLElement {
   connectedCallback() {
     console.log({ sheet, template, json });
 
-    if (!this.shadowRoot) {
-      this.attachShadow({ mode: 'open' });
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
+    let shadowRoot = this.shadowRoot;
+
+    if (!shadowRoot) {
+      shadowRoot = this.attachShadow({ mode: 'open' });
+      shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
-    this.shadowRoot.adoptedStyleSheets = [sheet];
-    this.shadowRoot.querySelectorAll?.('button')
+    shadowRoot.adoptedStyleSheets = [sheet];
+    shadowRoot.querySelectorAll('button')
       .forEach(button => {
         button.addEventListener('click', () => this.clickButton(button))
       });
