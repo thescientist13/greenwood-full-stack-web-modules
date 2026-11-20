@@ -7,6 +7,6 @@ export default {
   plugins: [{
     type: 'resource',
     name: 'plugin-import-html:resource',
-    provider: (compilation) => new HtmlImportsResource(compilation)
+    provider: () => new HtmlImportsResource()
   }]
 } satisfies Config;

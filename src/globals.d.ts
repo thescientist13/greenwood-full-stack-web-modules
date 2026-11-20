@@ -5,7 +5,7 @@ declare module "*.css" {
 }
 
 declare module "*?type=html" {
-  const template: import('./dom-parts-polyfill.ts').TemplateWithParts;
+  const template: HTMLTemplateElement;
 
   export default template;
 }
