@@ -43,54 +43,69 @@ customElements.define('app-hero', HeroBanner);
 
 ### Greenwood
 
-With these patches up-streamed, Greenwood and WCC will be able to support CSS and JSON out of the box, and HTML through a plugin.  This includes rendering in the browser and on the server, e.g. NodeJS.
+With these patches up-streamed, Greenwood and WCC will be able to support CSS and JSON out of the box, and HTML through a plugin.  This includes rendering in the browser and on the server, e.g. SSR.
 
-|      |  CSS  |   JSON  |  HTML  |
-|------|-------|---------|--------|
-|CSR   |  ✅   |    ✅   |   ✅   |
-|SSR   |  ✅   |    ✅   |   ✅   |
+|      |  CSS  |   JSON  |  HTML (Greenwood plugin)  |
+|------|-------|---------|---------------------------|
+| CSR  |  ✅   |    ✅   |             ⚙️            |
+| SSR  |  ✅   |    ✅   |             ⚙️            |
 
 ### Browser Support
 
-A cross-section of where browsers stand on supporting these capabilities
+A [cross-section](https://github.com/ProjectEvergreen/greenwood/discussions/1275) of where browsers stand on supporting these capabilities
 
 |               |  CSS   |   JSON  |  HTML  |
 |---------------|--------|---------|--------|
 |Chrome         |   ✅   |    ✅   |   🚫   |
 |FF             |   ✅   |    ✅   |   🚫   |
-|Safari TP      |   ✅   |    ✅   |   🚫   |
-|Safari 17.x    |   ✅   |    ✅   |   🚫   |
-|Safari 16.x    |   ❓   |    ❓   |   🚫   |
+|Safari TP      |   ⚠️   |    ✅   |   🚫   |
+|Safari 17.x    |   🚫   |    ✅   |   🚫   |
+|Safari 16.x    |   🚫   |    🚫   |   🚫   |
 |Safari 15.x    |   🚫   |    🚫   |   🚫   |
 
-## Dynamic Templating (DOM Parts)
+## DOM Parts Polyfill
 
-While this demonstration repo only deals with templates that are static, dynamic templating is also [a goal](https://github.com/thescientist13/greenwood-full-stack-web-modules/issues/2), although it, like HTML modules, needs to be standardized (see the [DOM Parts proposal](https://github.com/WICG/webcomponents/blob/gh-pages/proposals/DOM-Parts.md)).  The hope is that soon a component author will be able to do this
+The HTML import plugin exports an ordinary shared `<template>` while the standalone polyfill adds `cloneWithParts()` to `HTMLTemplateElement.prototype`.  Inspired by the [DOM Parts proposal](https://github.com/WICG/webcomponents/blob/gh-pages/proposals/DOM-Parts-Imperative.md).
+
 ```html
-<div class="hero">
-  <h2>{{ heading }}</h2>
-  
-  <!-- ... -->
-</div>
+<!-- load the polyfill synchronously -->
+<script src="./dom-parts-polyfill.ts"></script>
+
+<!-- then load your custom elements -->
+<script type="module" src="./components/card/card.ts"></script>
 ```
 
-```js
-// would eventually be
-// import template from './hero.html' with { type: 'html' }
-import template from "./hero.html?type=html";
+```html
+<!-- card.html -->
+<h3>{{title}}</h3>
+<img src="{{thumbnail}}" alt="{{title}}" loading="lazy" width="100%">
+```
 
-export default class HeroBanner extends HTMLElement {
+```ts
+// card.ts
+import template from './card.html?type=html';
+
+export default class Card extends HTMLElement {
   connectedCallback() {
-    if (!this.shadowRoot) {
-      template.replace('heading', this.getAttribute('heading'));
+    let shadowRoot = this.shadowRoot;
 
-      this.attachShadow({ mode: 'open' });
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
+    if (!shadowRoot) {
+      const thumbnail = this.getAttribute('thumbnail') ?? '';
+      const title = this.getAttribute('title') ?? '';
+
+      const { node, partGroup } = template.cloneWithParts();
+      const values: Record<string, string> = { title, thumbnail };
+
+      for (const part of partGroup.parts) {
+        part.value = values[part.name] ?? '';
+      }
+      partGroup.commit();
+
+      shadowRoot = this.attachShadow({ mode: 'open' });
+      shadowRoot.appendChild(node);
     }
-   
-    this.shadowRoot.adoptedStyleSheets = [sheet];
   }
 }
 
-customElements.define('app-hero', HeroBanner);
+customElements.define('app-card', Card);
 ```

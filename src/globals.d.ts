@@ -1,8 +1,3 @@
-type HTMLTemplateElementWithDOMTemplating = HTMLTemplateElement & {
-  replace: (key: string, contents: string) => void;
-  replaceAll: (key: string, contents: string) => void;
-}
-
 declare module "*.css" {
   const sheet: CSSStyleSheet;
 
@@ -10,7 +5,7 @@ declare module "*.css" {
 }
 
 declare module "*?type=html" {
-  const template: HTMLTemplateElementWithDOMTemplating;
+  const template: HTMLTemplateElement;
 
   export default template;
 }
