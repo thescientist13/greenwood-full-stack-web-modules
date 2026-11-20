@@ -16,11 +16,16 @@ export default class Card extends HTMLElement {
       const thumbnail = this.getAttribute('thumbnail') ?? '';
       const title = this.getAttribute('title') ?? '';
 
-      template.replaceAll('title', title);
-      template.replace('thumbnail', thumbnail);
+      const { node, partGroup } = template.cloneWithParts();
+      const values: Record<string, string> = { title, thumbnail };
+
+      for (const part of partGroup.parts) {
+        part.value = values[part.name] ?? '';
+      }
+      partGroup.commit();
 
       shadowRoot = this.attachShadow({ mode: 'open' });
-      shadowRoot.appendChild(template.content.cloneNode(true));
+      shadowRoot.appendChild(node);
     }
 
     shadowRoot.adoptedStyleSheets = [sheet];

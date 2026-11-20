@@ -2,10 +2,11 @@ import type { Config } from '@greenwood/cli';
 import { HtmlImportsResource } from './html-imports-plugin.ts';
 
 export default {
-  // TODO: prerender: true,
+  // TODO: https://github.com/thescientist13/greenwood-full-stack-web-modules/issues/12
+  // prerender: true,
   plugins: [{
     type: 'resource',
     name: 'plugin-import-html:resource',
-    provider: () => new HtmlImportsResource()
+    provider: (compilation) => new HtmlImportsResource(compilation)
   }]
 } satisfies Config;

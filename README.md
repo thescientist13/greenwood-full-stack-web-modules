@@ -43,12 +43,12 @@ customElements.define('app-hero', HeroBanner);
 
 ### Greenwood
 
-With these patches up-streamed, Greenwood and WCC will be able to support CSS and JSON out of the box, and HTML through a plugin.  This includes rendering in the browser and on the server, e.g. NodeJS.
+With these patches up-streamed, Greenwood and WCC will be able to support CSS and JSON out of the box, and HTML through a plugin.  This includes rendering in the browser and on the server, e.g. SSR.
 
-|      |  CSS  |   JSON  |  HTML  |
-|------|-------|---------|--------|
-|CSR   |  ✅   |    ✅   |   ✅   |
-|SSR   |  ✅   |    ✅   |   ✅   |
+|      |  CSS  |   JSON  |  HTML (Greenwood plugin)  |
+|------|-------|---------|---------------------------|
+|CSR   |  ✅   |    ✅   |             ⚙️            |
+|SSR   |  ✅   |    ✅   |             ⚙️            |
 
 ### Browser Support
 
@@ -63,34 +63,29 @@ A cross-section of where browsers stand on supporting these capabilities
 |Safari 16.x    |   ❓   |    ❓   |   🚫   |
 |Safari 15.x    |   🚫   |    🚫   |   🚫   |
 
-## Dynamic Templating (DOM Parts)
+## DOM Parts Polyfill
 
-While this demonstration repo only deals with templates that are static, dynamic templating is also [a goal](https://github.com/thescientist13/greenwood-full-stack-web-modules/issues/2), although it, like HTML modules, needs to be standardized (see the [DOM Parts proposal](https://github.com/WICG/webcomponents/blob/gh-pages/proposals/DOM-Parts.md)).  The hope is that soon a component author will be able to do this
+The HTML import plugin exports a shared `<template>` augmented with `cloneWithParts()`.  This is a first-party prototype inspired by the [DOM Parts proposal](https://github.com/WICG/webcomponents/blob/gh-pages/proposals/DOM-Parts-Imperative.md). It does not patch `document.createElement` or DOM prototypes.
+
 ```html
-<div class="hero">
-  <h2>{{ heading }}</h2>
-  
-  <!-- ... -->
-</div>
+<h3>{{title}}</h3>
+<img src="{{thumbnail}}" alt="{{title}}">
 ```
 
 ```js
-// would eventually be
-// import template from './hero.html' with { type: 'html' }
-import template from "./hero.html?type=html";
+import template from './card.html?type=html';
 
-export default class HeroBanner extends HTMLElement {
-  connectedCallback() {
-    if (!this.shadowRoot) {
-      template.replace('heading', this.getAttribute('heading'));
+const { node, partGroup } = template.cloneWithParts();
+const values = { title: 'HTML5 Logo', thumbnail: '/assets/html5-logo.png' };
 
-      this.attachShadow({ mode: 'open' });
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
-    }
-   
-    this.shadowRoot.adoptedStyleSheets = [sheet];
-  }
+for (const part of partGroup.parts) {
+  part.value = values[part.name] ?? '';
 }
+partGroup.commit();
+shadowRoot.appendChild(node);
 
-customElements.define('app-hero', HeroBanner);
+for (const part of partGroup.parts) {
+  if (part.name === 'title') part.value = 'Updated title';
+}
+partGroup.commit();
 ```
